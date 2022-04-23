@@ -2,6 +2,8 @@ import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {ReactComponent as ArrowRightIcon} from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg"
+import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth"
+import {db} from '../firebase.config'
 
 const SignUp = () => {
 
@@ -22,7 +24,20 @@ const SignUp = () => {
             [e.target.id]: e.target.value
         }))
     }
-
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const auth = getAuth()
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+            const user = userCredential.user
+            updateProfile(auth.currentUser, {
+                displayName: name
+            })
+            navigate('/')
+        } catch (e) {
+            console.log(e)
+        }
+    }
     return (
         <>
             <div className="pageContainer">
@@ -32,7 +47,7 @@ const SignUp = () => {
                     </p>
                 </header>
                 <main>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <input type="text" placeholder={'Name'} className="nameInput" id={'name'} value={name}
                                onChange={handleChange}/>
                         <input type="email" placeholder={'Email'} className="emailInput" id={'email'} value={email}
