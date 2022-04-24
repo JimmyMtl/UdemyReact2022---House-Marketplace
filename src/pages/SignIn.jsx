@@ -54,7 +54,8 @@ const SignIn = () => {
                                onChange={handleChange}/>
                         <div className="passwordInputDiv">
                             <input type={showPassword ? 'text' : 'password'} className={'passwordInput'}
-                                   placeholder={'password'} id={'password'} value={password} onChange={handleChange}/>
+                                   placeholder={'password'} id={'password'} value={password} onChange={handleChange}
+                                   autoComplete={'current-password'}/>
                             <img src={visibilityIcon} alt="Show password" className={'showPassword'}
                                  onClick={() => setShowPassword((prevsState) => !prevsState)}/>
                         </div>
