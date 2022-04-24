@@ -6,11 +6,11 @@ import {useNavigate} from "react-router-dom";
 const Profile = () => {
     const navigate = useNavigate()
     const auth = getAuth()
-    const [user, setUser] = useState({
+    const [formData, setFormData] = useState({
         name: auth.currentUser?.displayName,
         email: auth.currentUser?.email
     });
-
+    const {name, email} = formData
     const onLogout = () => {
       auth.signOut()
         navigate('/')
