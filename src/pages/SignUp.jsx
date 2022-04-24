@@ -3,11 +3,16 @@ import {Link, useNavigate} from "react-router-dom";
 import {ReactComponent as ArrowRightIcon} from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg"
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth"
+import {setDoc, doc, serverTimestamp} from "firebase/firestore"
 import {db} from '../firebase.config'
 
 const SignUp = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState({
+        state: false,
+        msg: 'The password should be at least 6 characters'
+    })
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -19,6 +24,8 @@ const SignUp = () => {
     const navigate = useNavigate()
 
     const handleChange = (e) => {
+
+
         setFormData((prevState) => ({
             ...prevState,
             [e.target.id]: e.target.value
@@ -26,17 +33,35 @@ const SignUp = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        try {
-            const auth = getAuth()
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-            const user = userCredential.user
-            updateProfile(auth.currentUser, {
-                displayName: name
-            })
-            navigate('/')
-        } catch (e) {
-            console.log(e)
+        if (password.length < 6) {
+            setError((prevState) => ({
+                ...prevState,
+                state: true
+            }))
+        } else {
+            setError((prevState => ({
+                ...prevState,
+                state: false
+            })))
+            try {
+                const auth = getAuth()
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+                const user = userCredential.user
+                updateProfile(auth.currentUser, {
+                    displayName: name
+                })
+
+                const formDataCopy = {...formData}
+                delete formDataCopy.password
+
+                formDataCopy.timestamp = serverTimestamp()
+                await setDoc(doc(db, 'users', user.uid), formDataCopy)
+                navigate('/')
+            } catch (e) {
+                console.log(e)
+            }
         }
+
     }
     return (
         <>
@@ -58,6 +83,7 @@ const SignUp = () => {
                             <img src={visibilityIcon} alt="Show password" className={'showPassword'}
                                  onClick={() => setShowPassword((prevsState) => !prevsState)}/>
                         </div>
+                        {error.state && <p style={{color: 'red'}}>{error.msg}</p>}
                         <div className="signUpBar">
                             <p className="signUpText">Sign Up</p>
                             <button type={'submit'} className={'signUpButton'}>
