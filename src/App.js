@@ -6,7 +6,8 @@ import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Navbar from "./components/Navbar";
-
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 const App = () => {
     return (
         <>
@@ -22,6 +23,7 @@ const App = () => {
                 {/* Navbar */}
                 <Navbar/>
             </Router>
+            <ToastContainer/>
         </>
     );
 };
