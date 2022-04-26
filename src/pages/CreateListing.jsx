@@ -130,13 +130,10 @@ const CreateListing = () => {
         setLoading(false);
         toast.error("Please enter a correct address");
         return;
-      } else {
-        setFormData({ ...formData, address: location });
       }
     } else {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
-      location = address;
     }
 
     // Store images in firebase
@@ -202,8 +199,7 @@ const CreateListing = () => {
     // We already use the location variable
     delete formDataCopy.address;
 
-    location && (formDataCopy.location = location);
-
+    formDataCopy.location = address;
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
 
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
