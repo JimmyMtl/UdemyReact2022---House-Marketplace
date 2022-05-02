@@ -11,6 +11,12 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import Spinner from "../components/Spinner";
 import shareIcon from "../assets/svg/shareIcon.svg";
 
+import "swiper/css";
+import "swiper/css/pagination";
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 const Listing = () => {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,6 +44,22 @@ const Listing = () => {
   return (
     <main>
       {/* SLIDER */}
+
+      <Swiper slidesPerView={1} pagination={{ clickable: true }} navigation>
+        {listing.imgUrls.map((url, index) => (
+          <SwiperSlide key={index}>
+            <div
+              className="swiperSlideDiv"
+              style={{
+                background: `url(${listing.imgUrls[index]}) 
+                center no-repeat`,
+                backgroundSize: "cover",
+              }}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
       <div
         className="shareIconDiv"
         onClick={() => {
