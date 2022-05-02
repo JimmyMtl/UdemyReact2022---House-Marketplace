@@ -74,6 +74,10 @@ const Profile = () => {
     toast.success("Successfully deleted listing");
   };
 
+  const onEdit = (listingId) => {
+    navigate(`/edit-listing/${listingId}`);
+  };
+
   useEffect(() => {
     const fetchUserListings = async () => {
       const listingsRef = collection(db, "listings");
@@ -153,6 +157,7 @@ const Profile = () => {
                   listing={data}
                   id={id}
                   onDelete={() => onDelete(id)}
+                  onEdit={() => onEdit(id)}
                 />
               ))}
             </ul>
