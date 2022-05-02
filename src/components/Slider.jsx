@@ -32,13 +32,11 @@ const Slider = () => {
 
       let listings = [];
       querySnap.forEach((doc) => {
-        console.log(doc);
         return listings.push({
           id: doc.id,
           data: doc.data(),
         });
       });
-      console.log(listings);
       setListings(listings);
       setLoading(false);
     };
