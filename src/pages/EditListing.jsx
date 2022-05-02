@@ -18,6 +18,7 @@ import { db } from "../firebase.config";
 import Spinner from "../components/Spinner";
 
 const EditListing = () => {
+  //eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
 
   const [loading, setLoading] = useState(false);
@@ -83,6 +84,7 @@ const EditListing = () => {
       toast.error("Your can not edit that listing");
       navigate("/");
     }
+    //eslint-disable-next-line
   }, []);
 
   // Fetch listing to edit
@@ -187,10 +189,10 @@ const EditListing = () => {
             console.log("Upload is " + progress + "% done");
             switch (snapshot.state) {
               case "paused":
-                console.log("paused");
                 break;
               case "running":
-                console.log("running");
+                break;
+              default:
                 break;
             }
           },

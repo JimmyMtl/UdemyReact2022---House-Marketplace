@@ -105,7 +105,11 @@ const Offers = () => {
           </main>
 
           <br />
-          {lastFetchedListing && <p className="loadMore">Load More</p>}
+          {lastFetchedListing && (
+            <p className="loadMore" onClick={onFetchMoreListings}>
+              Load More
+            </p>
+          )}
         </>
       ) : (
         <p>There are no current offers</p>

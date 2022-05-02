@@ -18,6 +18,7 @@ import { db } from "../firebase.config";
 import Spinner from "../components/Spinner";
 
 const CreateListing = () => {
+  //eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
 
   const [loading, setLoading] = useState(false);
@@ -163,6 +164,8 @@ const CreateListing = () => {
                 break;
               case "running":
                 console.log("running");
+                break;
+              default:
                 break;
             }
           },
