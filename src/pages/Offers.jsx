@@ -16,6 +16,7 @@ import ListingItem from "../components/ListingItem";
 const Offers = () => {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [lastFetchedListing, setLastFetchedListing] = useState(null);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -33,6 +34,10 @@ const Offers = () => {
         // Execute query
         const querySnap = await getDocs(q);
 
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+
+        setLastFetchedListing(lastVisible);
+
         let listing = [];
         querySnap.forEach((doc) => {
           return listing.push({
@@ -48,7 +53,40 @@ const Offers = () => {
     };
     fetchListings();
   }, []);
+  // Pagination / Load More
+  const onFetchMoreListings = async () => {
+    try {
+      // Get reference
+      const listingsRef = collection(db, "listings");
 
+      // Create a query
+      const q = query(
+        listingsRef,
+        where("offer", "==", true),
+        orderBy("timestamp", "desc"),
+        limit(10),
+        startAfter(lastFetchedListing)
+      );
+      // Execute query
+      const querySnap = await getDocs(q);
+
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+
+      setLastFetchedListing(lastVisible);
+
+      let listing = [];
+      querySnap.forEach((doc) => {
+        return listing.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+      setListings((prevState) => [...prevState, listing]);
+      setLoading(false);
+    } catch (e) {
+      toast.error("Could not fetch listings");
+    }
+  };
   return (
     <div className={"category"}>
       <header>
@@ -65,6 +103,9 @@ const Offers = () => {
               ))}
             </ul>
           </main>
+
+          <br />
+          {lastFetchedListing && <p className="loadMore">Load More</p>}
         </>
       ) : (
         <p>There are no current offers</p>
