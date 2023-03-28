@@ -42,7 +42,7 @@ const Listing = () => {
     return <Spinner />;
   }
   return (
-    <main>
+    <div className={"pageContainer"}>
       {/* SLIDER */}
 
       <Swiper slidesPerView={1} pagination={{ clickable: true }} navigation>
@@ -75,7 +75,7 @@ const Listing = () => {
 
       {shareLinkCopied && <p className={"linkCopied"}>Copied</p>}
 
-      <div className="linstingDetails">
+      <div className="listingDetails">
         <p className="listingName">
           {listing.name} - €
           {listing.offer
@@ -147,7 +147,7 @@ const Listing = () => {
           </Link>
         )}
       </div>
-    </main>
+    </div>
   );
 };
 

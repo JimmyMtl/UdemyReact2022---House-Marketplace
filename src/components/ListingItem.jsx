@@ -8,40 +8,40 @@ const ListingItem = ({ listing, id, onDelete, onEdit }) => {
   return (
     <li className={"categoryListing"}>
       <Link
-        to={`/category/${listing.type}/${id}`}
+        to={`/category/${listing?.type}/${id}`}
         className={"categoryListingLink"}
       >
-        {/*{JSON.stringify(listing.imgUrls)}*/}
+        {/*{JSON.stringify(listing?.imgUrls)}*/}
         <img
           src={listing?.imgUrls[0]}
-          alt={listing.name}
+          alt={listing?.name}
           className={"categoryListingImg"}
         />
         <div className="categoryListingDetails">
-          <p className="categoryListingLocation">{listing.location}</p>
-          <p className="categoryListingName">{listing.name}</p>
+          <p className="categoryListingLocation">{listing?.location}</p>
+          <p className="categoryListingName">{listing?.name}</p>
           <p className="categoryListingPrice">
             €
-            {listing.offer
-              ? listing.discountedPrice
+            {listing?.offer
+              ? listing?.discountedPrice
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              : listing.regularPrice
+              : listing?.regularPrice
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            {listing.type === "rent" && " / Month"}
+            {listing?.type === "rent" && " / Month"}
           </p>
           <div className="categoryListingInfoDiv">
             <img src={bedIcon} alt="Bed" />
             <p className="categoryListingInfoText">
-              {listing.bedrooms > 0
-                ? `${listing.bedrooms} Bedrooms`
+              {listing?.bedrooms > 0
+                ? `${listing?.bedrooms} Bedrooms`
                 : `1 Bedroom`}
             </p>
             <img src={bathtubIcon} alt="Bathtub" />
             <p className="categoryListingInfoText">
-              {listing.bathroom > 0
-                ? `${listing.bathroom} Bathrooms`
+              {listing?.bathroom > 0
+                ? `${listing?.bathroom} Bathrooms`
                 : `1 Bathroom`}
             </p>
           </div>
@@ -51,14 +51,14 @@ const ListingItem = ({ listing, id, onDelete, onEdit }) => {
         <DeleteIcon
           className={"removeIcon"}
           fill={"rgb(231,76,60)"}
-          onClick={() => onDelete(listing.id, listing.name)}
+          onClick={() => onDelete(listing?.id, listing?.name)}
         />
       )}
       {onEdit && (
         <EditIcon
           className={"editIcon"}
           fill={"rgb(231,76,60)"}
-          onClick={() => onEdit(listing.id)}
+          onClick={() => onEdit(listing?.id)}
         />
       )}
     </li>

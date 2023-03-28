@@ -69,22 +69,28 @@ const Offers = () => {
       );
       // Execute query
       const querySnap = await getDocs(q);
+      console.log(querySnap);
+      if (querySnap.docs.length > 0) {
+        const lastVisible = querySnap?.docs[querySnap?.docs?.length - 1];
 
-      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+        setLastFetchedListing(lastVisible);
 
-      setLastFetchedListing(lastVisible);
-
-      let listing = [];
-      querySnap.forEach((doc) => {
-        return listing.push({
-          id: doc.id,
-          data: doc.data(),
+        let listing = [];
+        querySnap.forEach((doc) => {
+          if (typeof doc.id !== "undefined") {
+            console.log(doc);
+            return listing.push({
+              id: doc?.id,
+              data: doc?.data(),
+            });
+          }
         });
-      });
-      setListings((prevState) => [...prevState, listing]);
-      setLoading(false);
+        setListings((prevState) => [...prevState, listing]);
+      }
     } catch (e) {
       toast.error("Could not fetch listings");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -96,13 +102,11 @@ const Offers = () => {
         <Spinner />
       ) : listings && listings.length > 0 ? (
         <>
-          <main>
-            <ul className="categoryListings">
-              {listings.map((listing, key) => (
-                <ListingItem key={key} listing={listing.data} id={listing.id} />
-              ))}
-            </ul>
-          </main>
+          <ul className="categoryListings">
+            {listings.map((listing, key) => (
+              <ListingItem key={key} listing={listing?.data} id={listing?.id} />
+            ))}
+          </ul>
 
           <br />
           {lastFetchedListing && (

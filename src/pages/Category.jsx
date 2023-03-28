@@ -104,14 +104,11 @@ const Category = () => {
         <Spinner />
       ) : listings && listings.length > 0 ? (
         <>
-          <main>
-            <ul className="categoryListings">
-              {listings.map((listing, key) => (
-                <ListingItem key={key} listing={listing.data} id={listing.id} />
-              ))}
-            </ul>
-          </main>
-          <br />
+          <ul className="categoryListings">
+            {listings.map((listing, key) => (
+              <ListingItem key={key} listing={listing.data} id={listing.id} />
+            ))}
+          </ul>
           {lastFetchedListing && <p className="loadMore">Load More</p>}
         </>
       ) : (
