@@ -37,10 +37,8 @@ const Contact = () => {
       </header>
       {landlord !== null && (
         <main>
-          <div className="contactLandlord">
-            <p className="landlordName">Contact {landlord?.name}</p>
-          </div>
           <form className="messageForm">
+            <p className="landlordName">Contact {landlord?.name}</p>
             <div className="messageDiv">
               <label htmlFor="message" className="messageLabel">
                 Message
